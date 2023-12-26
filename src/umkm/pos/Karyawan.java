@@ -31,7 +31,7 @@ public class Karyawan extends javax.swing.JPanel {
             DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
             dt.setRowCount(0);
             Statement s = database.mycon().createStatement();
-            ResultSet rs = s.executeQuery("SELECT * FROM Karyawan");
+            ResultSet rs = s.executeQuery("SELECT * FROM karyawan");
             
             while(rs.next()){
                 Vector v = new Vector();
@@ -342,7 +342,7 @@ public class Karyawan extends javax.swing.JPanel {
         String id = jTextField2.getText();
         try {
             Statement s = database.mycon().createStatement();
-            s.executeUpdate("DELETE FROM Karyawan WHERE Id = '"+id+"'");
+            s.executeUpdate("DELETE FROM karyawan WHERE Id = '"+id+"'");
             JOptionPane.showMessageDialog(null, "Data Terhapus");
         } catch (SQLException e) {
             System.out.println(e);
@@ -364,7 +364,7 @@ public class Karyawan extends javax.swing.JPanel {
         
         try {
             Statement s = database.mycon().createStatement();
-            s.executeUpdate("INSERT INTO Karyawan (nama_karyawan, alamat_karyawan, kontak_karyawan, gaji_karyawan, shift_karyawan) " +
+            s.executeUpdate("INSERT INTO karyawan (nama_karyawan, alamat_karyawan, kontak_karyawan, gaji_karyawan, shift_karyawan) " +
                  "VALUES ('" + name + "', '" + alamat + "', '" + kontak + "', " + gaji + ", '" + shift + "')");
             JOptionPane.showMessageDialog(null, "Data Tersimpan");
         } catch (SQLException e) {
@@ -378,7 +378,7 @@ public class Karyawan extends javax.swing.JPanel {
         String  search = jTextField2.getText();
         try {
             Statement s = database.mycon().createStatement();
-            ResultSet rs = s.executeQuery("SELECT * FROM Karyawan WHERE Id = '"+search+"' ");
+            ResultSet rs = s.executeQuery("SELECT * FROM karyawan WHERE Id = '"+search+"' ");
             if (rs.next()) {
                 jTextField1.setText(rs.getString("nama_karyawan"));
                 jTextField3.setText(rs.getString("alamat_karyawan"));
@@ -402,7 +402,7 @@ public class Karyawan extends javax.swing.JPanel {
         String id = jTextField2.getText();
         try {
             Statement s = database.mycon().createStatement();
-            s.executeUpdate("UPDATE Karyawan SET " +
+            s.executeUpdate("UPDATE karyawan SET " +
             "nama_karyawan = '" + name + "', " +
             "alamat_karyawan = '" + alamat + "', " +
             "kontak_karyawan = '" + kontak + "', " +
@@ -429,7 +429,7 @@ public class Karyawan extends javax.swing.JPanel {
         jTextField2.setText(id);
         jTextField1.setText(nama);
         jTextField3.setText(alamat);
-        jTextField3.setText(kontak);
+        jTextField4.setText(kontak);
         jSpinner1.setValue(gaji);
         jComboBox1.setSelectedItem(shift);
     }//GEN-LAST:event_jTable1MouseClicked
@@ -442,7 +442,7 @@ public class Karyawan extends javax.swing.JPanel {
             dt.setRowCount(0);
             Statement s = database.mycon().createStatement();
             
-            ResultSet rs = s.executeQuery("SELECT * FROM Karyawan WHERE nama_karyawan = '%"+nama+"%'");
+            ResultSet rs = s.executeQuery("SELECT * FROM karyawan WHERE nama_karyawan LIKE '%"+nama+"%'");
             
             while(rs.next()){
                 Vector v = new Vector();
@@ -457,7 +457,7 @@ public class Karyawan extends javax.swing.JPanel {
                 dt.addRow(v);
             }
         } catch (Exception e) {
-            System.out.println(e);
+            loadTable();
         }
     }//GEN-LAST:event_jTextField5KeyReleased
 
