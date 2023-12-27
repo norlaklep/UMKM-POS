@@ -10,13 +10,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author ROG
  */
 public class Transaksi extends javax.swing.JFrame {
-
     /**
      * Creates new form Transaksi
      */
@@ -63,6 +64,53 @@ public class Transaksi extends javax.swing.JFrame {
             System.out.println(e);
         } 
     }
+    
+    private void procal() {
+        try {
+            String qtText = jTextField2.getText();
+            String priceText = jLabel6.getText();
+
+            // Check if the input is not empty
+            if (!qtText.isEmpty() && !priceText.isEmpty()) {
+                double qt = Double.valueOf(qtText);
+                double price = Double.valueOf(priceText);
+                double tot = qt * price;
+                jLabel14.setText(String.valueOf(tot));
+            } else {
+                JOptionPane.showMessageDialog(this, "Jumlah dan harga tidak boleh kosong.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid input. Masukkan nilai integer untuk jumlah dan harga.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void total_keranjang() {
+        int numfrow = jTable1.getRowCount();
+        double total = 0;
+
+        for (int i = 0; i < numfrow; i++) {
+            try {
+                // Ensure the value in the table is not empty before attempting to convert
+                String valueString = jTable1.getValueAt(i, 5).toString();
+                if (!valueString.isEmpty()) {
+                    double value = Double.valueOf(valueString);
+                    total += value;
+                }
+            } catch (NumberFormatException e) {
+                // Handle the case where the value cannot be converted to a number
+                // You might want to display an error message or take appropriate action.
+                JOptionPane.showMessageDialog(this, "Invalid total price value in row " + (i + 1), "Error", JOptionPane.ERROR_MESSAGE);
+                // You can choose to return from the method or perform some other action based on your application logic.
+            } catch (Exception e) {
+                // Handle other exceptions if necessary
+                JOptionPane.showMessageDialog(this, "An error occurred while calculating the total price.", "Error", JOptionPane.ERROR_MESSAGE);
+                // You can choose to return from the method or perform some other action based on your application logic.
+            }
+        }
+
+        jLabel10.setText(Double.toString(total));
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,9 +129,13 @@ public class Transaksi extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        ktg = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -109,7 +161,7 @@ public class Transaksi extends javax.swing.JFrame {
         jLabel1.setText("INVOICE NO :");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("00");
+        jLabel2.setText("01");
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setText("Karyawan :");
@@ -151,6 +203,11 @@ public class Transaksi extends javax.swing.JFrame {
 
         jComboBox1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("JUMLAH :");
@@ -160,6 +217,25 @@ public class Transaksi extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("00");
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel13.setText("Total Harga :");
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel14.setText("00");
+
+        jTextField2.setText("0");
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField2KeyReleased(evt);
+            }
+        });
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel15.setText("Kategori :");
+
+        ktg.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        ktg.setText("Harga :");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -173,12 +249,20 @@ public class Transaksi extends javax.swing.JFrame {
                 .addGap(50, 50, 50)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(68, 68, 68)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel14)
+                .addGap(45, 45, 45)
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ktg, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(192, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,21 +272,24 @@ public class Transaksi extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel13)
+                        .addComponent(jLabel14)
+                        .addComponent(jLabel6)
+                        .addComponent(jLabel5)
+                        .addComponent(ktg)
+                        .addComponent(jLabel15))
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
+        jTable1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Id", "Nama Produk", "Kategori", "Harga", "Stok"
+                "Id", "Nama Produk", "Kategori", "Jumlah", "Harga", "Total Harga"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -211,12 +298,27 @@ public class Transaksi extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton2.setText("Tambah Ke Keranjang");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setText("Hapus");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton4.setText("Hapus Semua");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -228,7 +330,7 @@ public class Transaksi extends javax.swing.JFrame {
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,6 +350,11 @@ public class Transaksi extends javax.swing.JFrame {
         jLabel7.setText("Jumlah yang Dibayar :");
 
         jTextField1.setText("0");
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -388,6 +495,94 @@ public class Transaksi extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        String name = jComboBox1.getSelectedItem().toString();
+        try {
+            Statement s = database.mycon().createStatement();
+            
+            ResultSet rs = s.executeQuery("SELECT kategori_produk,harga_produk FROM produk WHERE nama_produk = '"+name+"'");
+            if (rs.next()) {
+            String hargaText = rs.getString("harga_produk");
+
+                // Check if the retrieved value is not empty
+                if (!hargaText.isEmpty()) {
+                    jLabel6.setText(hargaText);
+                    ktg.setText(rs.getString("kategori_produk"));
+                    procal();
+                } else {
+                    JOptionPane.showMessageDialog(this, "harga untuk produk kosong.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }   
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
+        // TODO add your handling code here:
+        procal();
+    }//GEN-LAST:event_jTextField2KeyReleased
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
+        Vector v = new Vector();
+        v.add(jLabel2.getText());
+        v.add(jComboBox1.getSelectedItem().toString());
+        v.add(ktg.getText());
+        v.add(jTextField2.getText());
+        v.add(jLabel6.getText());
+        v.add(jLabel14.getText());
+        
+        dt.addRow(v);
+        total_keranjang();
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        try {
+            DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
+            int rw = jTable1.getSelectedRow();
+            String id = dt.getValueAt(rw, 0).toString();
+            dt.removeRow(rw);
+        } catch (Exception e) {
+        }
+        total_keranjang();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
+        dt.setRowCount(0);
+        total_keranjang();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        // TODO add your handling code here:
+            try {
+            String paidText = jTextField1.getText();
+            String totText = jLabel10.getText();
+
+            // Check if the input is not empty
+            if (!paidText.isEmpty() && !totText.isEmpty()) {
+                double paid = Double.valueOf(paidText);
+                double tot = Double.valueOf(totText);
+                double sisa = paid - tot;
+                jLabel11.setText(String.valueOf(sisa));
+            } else {
+                // Handle the case where the input is empty
+                // You might want to display an error message or take appropriate action.
+                jLabel11.setText(""); // Reset the result if the input is empty
+            }
+        } catch (NumberFormatException e) {
+            // Handle the case where the input cannot be converted to a number
+            // You might want to display an error message or take appropriate action.
+            jLabel11.setText(""); // Reset the result if there's a NumberFormatException
+        }
+    }//GEN-LAST:event_jTextField1KeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -435,6 +630,9 @@ public class Transaksi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -449,8 +647,9 @@ public class Transaksi extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel ktg;
     // End of variables declaration//GEN-END:variables
 }
