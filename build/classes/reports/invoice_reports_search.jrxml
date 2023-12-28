@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice_reports_search" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="97966802-a470-4b65-b4ec-bcf13cf9c97a">
+	<property name="ireport.zoom" value="2.143588810000002"/>
+	<property name="ireport.x" value="47"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="invo_para" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     keranjang.`caId` AS keranjang_caId,
+     keranjang.`iid` AS keranjang_iid,
+     keranjang.`tname` AS keranjang_tname,
+     keranjang.`tkategori` AS keranjang_tkategori,
+     keranjang.`tjumlah` AS keranjang_tjumlah,
+     keranjang.`tharga` AS keranjang_tharga,
+     keranjang.`ttotal` AS keranjang_ttotal
+FROM
+     `keranjang` keranjang where iid = $P{invo_para}]]>
+	</queryString>
+	<field name="keranjang_caId" class="java.lang.Integer"/>
+	<field name="keranjang_iid" class="java.lang.Integer"/>
+	<field name="keranjang_tname" class="java.lang.String"/>
+	<field name="keranjang_tkategori" class="java.lang.String"/>
+	<field name="keranjang_tjumlah" class="java.lang.String"/>
+	<field name="keranjang_tharga" class="java.lang.String"/>
+	<field name="keranjang_ttotal" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<image>
+				<reportElement x="275" y="0" width="300" height="64" uuid="3694b885-68f4-43f3-ba8a-286373b1017a"/>
+				<imageExpression><![CDATA["leaf_banner_red.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="0" y="13" width="263" height="33" uuid="36ce1817-e63a-4111-8071-57a17cf39df3"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Pemuda Sopan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="117" y="46" width="157" height="22" uuid="b86d68da-540e-477c-925a-b286171d2d99"/>
+				<text><![CDATA[POS-UMKM]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="54cb6305-562d-400c-b4b6-3fbda0a43aa6"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="79" height="15" uuid="cb0c4497-4c7b-474d-b7f3-bad27f58240b"/>
+				<text><![CDATA[Id Keranjang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="79" y="19" width="58" height="15" uuid="908c8336-4b7c-4a60-9cc8-fef8d19fa183"/>
+				<text><![CDATA[Id Invoice]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="137" y="19" width="79" height="15" uuid="f2a29545-126e-4342-9ff8-98a3ae704cc4"/>
+				<text><![CDATA[Nama Produk]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="216" y="19" width="100" height="15" uuid="7155b58d-376a-4967-82fc-f862a3983727"/>
+				<text><![CDATA[Kategori Produk]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="316" y="19" width="61" height="15" uuid="b3f6c074-8121-4691-83a6-93b7c9757a71"/>
+				<text><![CDATA[Kuantitas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="377" y="19" width="79" height="15" uuid="637b23eb-22f7-4888-abbd-0e770cec208d"/>
+				<text><![CDATA[Harga Satuan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="456" y="19" width="97" height="15" uuid="7a923ae6-af58-4c30-9213-b588ceba6530"/>
+				<text><![CDATA[Total Harga]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="8e822337-8530-477f-ba4a-a8c44da708e1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="79" height="15" uuid="e29da8a5-197f-41d9-b2f2-fdbd5433eb50"/>
+				<textFieldExpression><![CDATA[$F{keranjang_caId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="79" y="0" width="58" height="15" uuid="efebd0d7-761e-4f8b-abc2-fcd0d1fdbfce"/>
+				<textFieldExpression><![CDATA[$F{keranjang_iid}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="137" y="0" width="79" height="15" uuid="f1983283-8d46-40e7-ba7b-f8d90d55778c"/>
+				<textFieldExpression><![CDATA[$F{keranjang_tname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="216" y="0" width="100" height="15" uuid="af5983db-5d90-48d5-a30a-f59b971e5007"/>
+				<textFieldExpression><![CDATA[$F{keranjang_tkategori}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="316" y="0" width="61" height="15" uuid="a55d228d-d207-479e-afb4-bf0edb6654f9"/>
+				<textFieldExpression><![CDATA[$F{keranjang_tjumlah}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="377" y="0" width="79" height="15" uuid="ea966c9a-8a5d-42d2-9ab0-c879012ed815"/>
+				<textFieldExpression><![CDATA[$F{keranjang_tharga}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="456" y="0" width="97" height="15" uuid="a79b1b1a-eed7-4aaa-b1ab-e80f00b5758b"/>
+				<textFieldExpression><![CDATA[$F{keranjang_ttotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="b5bd0b3b-9fb1-402e-b274-441992adf5b0"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="0a12457f-0321-473c-89b4-338778643fe6"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="e195a776-1aa6-4475-b644-1aa0b6148f51"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="8634ad98-677e-48e2-935b-e3cd90fdd996"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

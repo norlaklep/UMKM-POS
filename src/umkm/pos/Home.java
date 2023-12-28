@@ -157,6 +157,9 @@ public class Home extends javax.swing.JFrame {
 
     private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton5ActionPerformed
         // TODO add your handling code here:
+        Reports rp = new Reports();
+        rp.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jToggleButton5ActionPerformed
 
     /**

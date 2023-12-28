@@ -283,7 +283,7 @@ public class Karyawan extends javax.swing.JPanel {
         });
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel8.setText("Search :");
+        jLabel8.setText("Search (Nama) :");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

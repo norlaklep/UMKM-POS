@@ -9,6 +9,7 @@ import java.awt.HeadlessException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -222,7 +223,7 @@ public class Transaksi extends javax.swing.JFrame {
         jLabel1.setText("INVOICE NO :");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("01");
+        jLabel2.setText("00");
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setText("Karyawan :");
@@ -686,7 +687,7 @@ public class Transaksi extends javax.swing.JFrame {
             }
             
             Statement ss = database.mycon().createStatement();
-            ss.executeUpdate("INSERT INTO penjualan (id, kid, nama_karyawan, total_jumlah, total_harga, status, due) VALUES ('"+inv_id+"', '"+k_id+"', '"+knama+"','"+jumlah+"', '"+harga+"', '"+status+"', '"+saldo+"')");
+            ss.executeUpdate("INSERT INTO penjualan (id, kid, nama_karyawan, total_jumlah, total_harga, status, balance) VALUES ('"+inv_id+"', '"+k_id+"', '"+knama+"','"+jumlah+"', '"+harga+"', '"+status+"', '"+saldo+"')");
         } catch (NumberFormatException | SQLException e) {
             System.out.println(e);
         }
@@ -697,6 +698,15 @@ public class Transaksi extends javax.swing.JFrame {
             sss.executeUpdate("UPDATE extra SET val = '"+id+"' WHERE Id = 1 ");
         } catch (SQLException e) {
             System.out.println(e);
+        }
+        
+        try {
+            HashMap para  = new HashMap();
+            para.put("inv_id", jLabel2.getText());
+
+            ReportView r = new ReportView("src\\reports\\bayar.jasper", para);
+            r.setVisible(true);
+        } catch (Exception e) {
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
