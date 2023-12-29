@@ -11,11 +11,20 @@ package umkm.pos;
  */
 public class Kelola extends javax.swing.JFrame {
     JpanelLoader jpload = new JpanelLoader();
+    private String loggedInUserName;
+    private String loggedInUserRole;
+    
     /**
      * Creates new form Kelola
      */
     public Kelola() {
         initComponents();
+    }
+
+    Kelola(String loggedInUserName, String loggedInUserRole) {
+        initComponents();
+        this.loggedInUserName = loggedInUserName;
+        this.loggedInUserRole = loggedInUserRole;
     }
 
     /**
@@ -211,7 +220,7 @@ public class Kelola extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        Home hpage = new Home();
+        Home hpage = new Home(loggedInUserName,loggedInUserRole);
         hpage.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed

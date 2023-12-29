@@ -12,12 +12,19 @@ import java.util.HashMap;
  * @author ROG
  */
 public class Reports extends javax.swing.JFrame {
-
+private String loggedInUserName;
+private String loggedInUserRole;
     /**
      * Creates new form Reports
      */
     public Reports() {
         initComponents();
+    }
+
+    Reports(String loggedInUserName, String loggedInUserRole) {
+        initComponents();
+        this.loggedInUserName = loggedInUserName;
+        this.loggedInUserRole = loggedInUserRole;
     }
 
     /**
@@ -137,7 +144,7 @@ public class Reports extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        Home hpage = new Home();
+        Home hpage = new Home(loggedInUserName,loggedInUserRole);
         hpage.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed

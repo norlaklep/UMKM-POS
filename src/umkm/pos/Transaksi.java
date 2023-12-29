@@ -25,8 +25,19 @@ public class Transaksi extends javax.swing.JFrame {
      */
     
     public static String k_id = "0";
+    private String loggedInUserRole;
+    private String loggedInUserName;
     public Transaksi() {
         initComponents();
+        loadtablek();
+        loadtablep();
+    }
+
+
+    Transaksi(String loggedInUserName, String loggedInUserRole) {
+        initComponents();
+        this.loggedInUserRole = loggedInUserRole;
+        this.loggedInUserName = loggedInUserName;
         loadtablek();
         loadtablep();
     }
@@ -571,7 +582,7 @@ public class Transaksi extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        Home hpage = new Home();
+        Home hpage = new Home(loggedInUserName,loggedInUserRole);
         hpage.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -713,11 +724,18 @@ public class Transaksi extends javax.swing.JFrame {
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
-        String name = jComboBox2.getSelectedItem().toString();
         try {
             Statement s = database.mycon().createStatement();
-            
-            ResultSet rs = s.executeQuery("SELECT Id,nama_karyawan FROM karyawan WHERE nama_karyawan = '"+name+"'");
+            String query;
+            if ("owner".equals(loggedInUserRole)) {
+                query = "SELECT Id, nama_karyawan FROM karyawan";
+            } else if ("karyawan".equals(loggedInUserRole)) {
+                query = "SELECT Id, nama_karyawan FROM karyawan WHERE nama_karyawan = '" + loggedInUserName + "'";
+            } else {
+                // Handle other roles or show an error message
+                return;
+            }
+            ResultSet rs = s.executeQuery(query);
             if (rs.next()) {
             String nama = rs.getString("nama_karyawan");
 
